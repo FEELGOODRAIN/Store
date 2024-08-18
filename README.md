@@ -3,7 +3,7 @@
 ## 월별 주문 회원 수 , 주문 수 , 주문 금액 , 할인 금액 , 배송비
 
   SELECT 
-    DATE_FORMAT(주문날짜, '%Y-%m') AS 월별,
+    DATE_FORMAT(주문날짜, '%Y-%m') AS 월별, #Oracle에서는 DATE_FORMAT 대신 TO_CHAR 사용
     COUNT(DISTINCT 유저ID) AS 주문_회원_수,
     COUNT(주문번호) AS 주문_수,
     SUM(최종가격) AS 총_주문_금액,
@@ -12,7 +12,7 @@
   FROM 
       Orders
   GROUP BY 
-      DATE_FORMAT(주문날짜, '%Y-%m')
+      DATE_FORMAT(주문날짜, '%Y-%m') #Oracle에서는 DATE_FORMAT 대신 TO_CHAR 사용
   ORDER BY 
       월별;
 결과:
@@ -38,11 +38,11 @@ FROM
     (
         SELECT 
             유저ID,
-            COUNT(DISTINCT DATE_FORMAT(주문날짜, '%Y-%m')) AS 주문_월수
+            COUNT(DISTINCT DATE_FORMAT(주문날짜, '%Y-%m')) AS 주문_월수 #Oracle에서는 DATE_FORMAT 대신 TO_CHAR 사용
         FROM 
             Orders
         WHERE 
-            DATE_FORMAT(주문날짜, '%Y-%m') BETWEEN '2024-01' AND '2024-08'
+            DATE_FORMAT(주문날짜, '%Y-%m') BETWEEN '2024-01' AND '2024-08' #Oracle에서는 DATE_FORMAT 대신 TO_CHAR 사용
         GROUP BY 
             유저ID
         HAVING 
@@ -79,11 +79,11 @@ JOIN
     Brands AS b ON p.고유번호 = b.고유번호
 WHERE 
     b.이름 = 'A' 
-    AND DATE_FORMAT(o.주문날짜, '%Y-%m') = '2024-03'
+    AND DATE_FORMAT(o.주문날짜, '%Y-%m') = '2024-03' #Oracle에서는 DATE_FORMAT 대신 TO_CHAR 사용
     AND u.이름 IN (
         SELECT 유저ID 
         FROM Orders 
-        WHERE DATE_FORMAT(주문날짜, '%Y-%m') = '2024-03'
+        WHERE DATE_FORMAT(주문날짜, '%Y-%m') = '2024-03' #Oracle에서는 DATE_FORMAT 대신 TO_CHAR 사용
         GROUP BY 유저ID 
         HAVING MIN(o.주문날짜)
     )
